@@ -16,12 +16,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr  v-for="(d, index) in data" :key="index">
-        <th scope="row">{{index+1 }}</th>
+      <tr  v-for="(d, index) in data" :key="d.id">
+        <th scope="row">{{ index+1 }}</th>
         <td>{{d.name}}</td>
         <td>{{d.price}}</td>
         <td>{{d.description}}</td>
-        <td><router-link to="`/products/edit/${id}`" class="btn btn-info ">Edit</router-link>
+        <td><router-link :to="{name: 'productsEdit', params: {id: d.id},}" class="btn btn-info ">Edit</router-link>
             <router-link to="/products/add" class="btn btn-danger ">Delete</router-link></td>
       </tr>
 
@@ -58,6 +58,7 @@ export default {
     data.value = await useLoadProducts();
   
     return { data }
+   
   },
 
 }

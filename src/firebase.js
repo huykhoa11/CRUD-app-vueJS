@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, setDoc, getDocs} from 'firebase/firestore/lite';
+import { getFirestore, collection, doc, setDoc, getDocs, getDoc, updateDoc} from 'firebase/firestore/lite';
 // import { addDoc } from "firebase/firestore"; 
 import { ref} from 'vue' 
 
@@ -25,12 +25,18 @@ export const createProduct = async(product) => {
 }
 
 export const getProduct = async(id) => {
-    const product = await productsCollection.doc(id).get()
-    return product.exists ? product.data() : null
+    // const product = await productsCollection.doc(id).get()
+    const docRef = doc(db, "products", id);
+    const product = await getDoc(docRef);
+    return product.exists() ? product.data() : null
+    
 }
 
-export const updateProduct = (id, product) => {
-    return productsCollection.doc(id).update(product)
+export const updateProduct = async (id, product) => {
+    const docRef = doc(db, "products", id);
+    await setDoc(docRef, product)
+    console.log(product, "=> product");
+    // return product
 }
 
 export const deleteProduct = id => {
@@ -40,16 +46,12 @@ export const deleteProduct = id => {
 export const useLoadProducts = async() => {
     const products = ref([])
     var result = []
-    // const close = productsCollection.onSnapshot(snapshot => {
-    //     products.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-    // })
-
     products.value = await getDocs(productsCollection);
-    // onUnmounted(close)
-    console.log(products.value, "=> products.value")
+
     products.value.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-        result.push(doc.data())
+        // console.log(doc.id, " => ", doc.data());
+        const obj = {id: `${doc.id}`}
+        result.push({...obj, ...doc.data()})
     });
 
     console.log(result, "=> result")

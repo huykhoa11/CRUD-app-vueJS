@@ -4,7 +4,7 @@
   <Suspense>
     <template #default>
       
-      <productsList />
+      <productsEdit />
       
     </template>
 
@@ -18,12 +18,12 @@
 
 
 <script>
-import productsList from "../products/List.vue"
+import productsEdit from "../products/EditForm.vue"
 
 export default {
-    name: 'App',
+
     components: {
-        productsList,
+        productsEdit,
     },
 }
 </script>
