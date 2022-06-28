@@ -22,7 +22,7 @@
         <td>{{d.price}}</td>
         <td>{{d.description}}</td>
         <td><router-link :to="{name: 'productsEdit', params: {id: d.id},}" class="btn btn-info ">Edit</router-link>
-            <router-link to="/products/add" class="btn btn-danger ">Delete</router-link></td>
+            <button @click="delBtn(d.id)" class="btn btn-danger">Delete</button></td>
       </tr>
 
     </tbody>
@@ -33,34 +33,25 @@
 </template>
 
 <script>
-import {useLoadProducts} from '@/firebase'
+import {useLoadProducts, deleteProduct} from '@/firebase'
 import {ref, reactive} from 'vue'
 
 export default {
-
-  // setup() {
-  //   let data = reactive([])
-  //   const printPro = async () => {
-  //     const a = await useLoadProducts();
-  //     console.log(a);
-  //     data = a
-  //     return a
-  //   };
-  //   printPro();
-  //   // const data = printPro()
-  //   return {data}
-
-  // },
-
   name: 'productsList',
   async setup() {
     const data = ref(null)
     data.value = await useLoadProducts();
   
     return { data }
-   
   },
 
+  methods: {
+    delBtn: function(id) {
+      deleteProduct(id)
+      window.location.href = "/"
+    }
+  },
+  
 }
 </script>
 

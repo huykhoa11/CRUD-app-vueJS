@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, setDoc, getDocs, getDoc, updateDoc} from 'firebase/firestore/lite';
+import { getFirestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc} from 'firebase/firestore/lite';
 // import { addDoc } from "firebase/firestore"; 
 import { ref} from 'vue' 
 
@@ -39,8 +39,9 @@ export const updateProduct = async (id, product) => {
     // return product
 }
 
-export const deleteProduct = id => {
-    return productsCollection.doc(id).delete()
+export const deleteProduct = async(id) => {
+    await deleteDoc(doc(db, "products", id));
+    // return productsCollection.doc(id).delete()
 }
 
 export const useLoadProducts = async() => {
