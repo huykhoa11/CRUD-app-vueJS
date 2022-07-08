@@ -1,7 +1,7 @@
 <template>
   <div class="head">
     <h1>User Management</h1>
-    <router-link to="/Products/add" class="btn btn-warning ">Add Product</router-link>
+    <router-link to="/Products/add" class="btn btn-outline-warning ">Add new Product</router-link>
   </div>
   <br><br>
   <table class="table table-hover">
@@ -17,19 +17,20 @@
       <tr>
         <th scope="row">1</th>
         <td>Mark</td>
-        <td>Otto</td>
         <td>@mdo</td>
+        <td>Otto</td>
       </tr>
       <tr>
         <th scope="row">2</th>
         <td>Jacob</td>
-        <td>Thornton</td>
         <td>@fat</td>
+        <td>Thornton</td>
       </tr>
       <tr>
         <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
+        <td>David</td>
         <td>@twitter</td>
+        <td>Larry the bird</td>
       </tr>
     </tbody>
   </table>
