@@ -4,8 +4,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name: 'parentProductsList',
-    component: () => import('../products/ParentList.vue')
+    name: 'ProductsList',
+    component: () => import('../products/List.vue')
   },
   {
     path: '/products/add',
@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/products/edit/:id',
     name: 'productsEdit',
-    component: () => import('../products/ParentEdit.vue')
+    component: () => import('../products/EditForm.vue')
   },
   {
     path: '/users',

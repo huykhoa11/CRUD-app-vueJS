@@ -59,11 +59,7 @@ export default {
     setup() {
       const form = reactive({name: "", price: "", description: ""})
 
-      const quiz = reactive({
-          name: "",
-          price: "",
-          description: ""
-      })
+      const quiz = reactive({name: "", price: "", description: ""})
 
       const errors = reactive({
           name: false,

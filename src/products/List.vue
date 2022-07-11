@@ -1,14 +1,8 @@
 <template>
-  <div class="head">
-     <div class="alert alert-success" role="alert">
-      Load products infomation successfully !
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <h1> Products List</h1>
-    <router-link to="/products/add" class="btn btn-outline-warning">Add new Product</router-link>
-  </div>
+  <div id="loadNotice"><span style="color: #aaa"><h2>Loading...</h2></span></div>
+  <h1> Products List</h1>
+  <router-link to="/products/add" class="btn btn-outline-warning">Add new Product</router-link>
+  
   <br><br>
   <!-- <p>{{ data }}</p> -->
   <table class="table table-hover">
@@ -42,12 +36,35 @@
 import {useLoadProducts, deleteProduct} from '@/firebase'
 import {ref, reactive} from 'vue'
 $('.alert').alert()
+
 export default {
   name: 'productsList',
-  async setup() {
+  setup() {
     const data = ref(null)
-    data.value = await useLoadProducts();
-    console.log(data, "data")
+    const tmp = ref(null)
+    // data.value = await useLoadProducts();
+    // console.log(data, "data")
+
+    const asyncFunc = async() => {
+      tmp.value = await useLoadProducts();
+      return tmp
+    }
+
+    asyncFunc()
+      .then((result) => {
+        data.value = result.value
+        console.log(data, "data")
+
+        const div = document.getElementById("loadNotice")
+        div.innerHTML = `
+          <div class="alert alert-success" role="alert">
+            Load products successfully !
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        `
+    })
 
     return { data }
   },

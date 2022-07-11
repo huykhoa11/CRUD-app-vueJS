@@ -1,5 +1,7 @@
 <template>
-    <h3>Edit Product</h3>
+  <div id="updateNotice"></div>
+  
+  <h3>Edit Product</h3>
   <form @submit.prevent="onsubmit">
     <div class="form-group">
         <label for="exampleFormControlInput1">Product name</label>
@@ -52,36 +54,39 @@
 </template>
 
 <script>
+$('.alert').alert()
 import {useRoute} from "vue-router"
 import {getProduct, updateProduct} from '@/firebase'
-import {reactive} from 'vue'
+import {reactive, ref} from 'vue'
 
 export default {
-  async setup() {
-    const form = reactive({name: "", price: "", description: ""})
+  setup() {
+    const route = useRoute();
 
-    const quiz = reactive({
+    let form = reactive({name: "", price: "", description: ""})
+
+    let quiz = reactive({
         name: "",
         price: "",
         description: ""
     })
 
-    const errors = reactive({
+    let errors = reactive({
         name: false,
         price: false,
         description: false,
     });
 
-    const success = reactive({
+    let success = reactive({
         name: false,
         price: false,
         description: false,
     });
 
     const setDefault = () => {
-      quiz.name =  ""
-      quiz.price = ""
-      quiz.description = ""
+      // quiz.name =  ""
+      // quiz.price = ""
+      // quiz.description = ""
 
       errors.name = false;
       errors.price = false;
@@ -127,16 +132,27 @@ export default {
       validate();
     }
 
-    const route = useRoute();
-    const data = await getProduct(route.params.id);
-    
-    
-    console.log(data, "data=>")
-    quiz.name = data.name;
-    quiz.price = data.price;
-    quiz.description = data.description
 
-    const onsubmit = async () => {
+    let data = ref(null)
+    let tmp = ref(null)
+    let isUpdated = false
+    const asyncFunc = async() => {
+      tmp.value = await getProduct(route.params.id);
+      quiz.name = tmp.value.name;
+      quiz.price = tmp.value.price;
+      quiz.description = tmp.value.description
+
+      return tmp
+    }
+
+    asyncFunc().
+      then((result) => {
+        data.value = result.value
+        console.log(data.value)
+    })
+
+
+    const onsubmit = () => {
       validate();
       form.name = quiz.name;
       form.price = quiz.price;
@@ -144,11 +160,22 @@ export default {
       console.log(form);
       if(errors.name == false && errors.price == false && errors.description == false){
         updateProduct(route.params.id, form)
+        isUpdated = true
+        setDefault()
+
+        const div = document.getElementById("updateNotice")
+        div.innerHTML = `
+          <div class="alert alert-success" role="alert">
+            Update product successfully !
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        `
       }
-      
     }
     
-    return { quiz, errors, success, validate, onsubmit, onblur, data };
+    return { quiz, errors, success, validate, onsubmit, onblur, data, isUpdated };
   }
 }
 
