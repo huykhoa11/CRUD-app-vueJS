@@ -48,6 +48,7 @@ export const useLoadProducts = async() => {
     const products = ref([])
     var result = []
     products.value = await getDocs(productsCollection);
+    console.log(typeof products.value)
 
     products.value.forEach((doc) => {
         // console.log(doc.id, " => ", doc.data());

@@ -47,6 +47,7 @@ export default {
   async setup() {
     const data = ref(null)
     data.value = await useLoadProducts();
+    console.log(data, "data")
 
     return { data }
   },

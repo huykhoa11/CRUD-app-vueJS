@@ -1,41 +1,36 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import parentProductsList from '../products/ParentList.vue'
+// import parentProductsList from '../products/ParentList.vue'
 
 const routes = [
   {
     path: '/',
     name: 'parentProductsList',
-    component: parentProductsList
+    component: () => import('../products/ParentList.vue')
   },
   {
     path: '/products/add',
     name: "productsAdd",
-    component: () => import(/* webpackChunkName: "about" */ '../products/Form.vue')
+    component: () => import('../products/Form.vue')
   },
   {
     path: '/products/edit/:id',
     name: 'productsEdit',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../products/ParentEdit.vue')
+    component: () => import('../products/ParentEdit.vue')
   },
   {
     path: '/users',
     name: 'users',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../users/List.vue')
+    component: () => import('../users/List.vue')
   },
   {
     path: '/api/products',
     name: 'apiProducts',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../users/List.vue')
+    component: () => import('../users/List.vue')
   },
+  {
+    path: "/:pathMatch(.*)*",
+    component: () => import('../views/404')
+},
 ]
 
 const router = createRouter({
